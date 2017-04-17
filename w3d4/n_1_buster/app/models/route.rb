@@ -22,6 +22,16 @@ class Route < ActiveRecord::Base
   end
 
   def better_drivers_query
-    # TODO: your code here
+    buses = self.buses.includes(:drivers)
+
+    all_drivers = Hash.new { |h,k| h[k] = [] }
+    buses.each do |bus|
+      bus.drivers.each do |driver|
+        all_drivers[bus] += [driver.name]
+      end
+    end
+
+    all_drivers
+
   end
 end
